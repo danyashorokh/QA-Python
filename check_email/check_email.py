@@ -30,7 +30,7 @@ firstname = "Имя"
 patr = "Отчество"
 phone = "9091111111"
 
-url = 'http://moneyman.ru/'
+url = '123'
 max_wait = 1 # максимальное ожидание браузера
 
 d1 = webdriver.Chrome()

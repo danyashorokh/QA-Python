@@ -806,7 +806,7 @@ def get_region(adr):
     return reg_key
 
 # Путь к таблице excel
-file_name = 'C:/Users/DShorokh/Desktop/selenium_excel.xls'
+file_name = 'excel.xls'
 
 # Количество клиентов
 clients_amount = 1
@@ -976,8 +976,8 @@ for i in range(0, clients_amount):
 
 
 # Инициализация url's
-test1 = "http://test1.migcredit.ru/dengi3/"
-test3 = "http://test3.migcredit.ru/dengi3/"
+test1 = ""
+test3 = ""
 
 # Инициализация способа получения займа
 type1 = "Карта"

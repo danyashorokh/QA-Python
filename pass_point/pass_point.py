@@ -26,7 +26,7 @@ desc_point = ""
 pre = ""
 t = "\t"
 
-url = 'https://anketa.alfabank.ru/alfaform-pil/endpoint?platformId=alfasite'
+url = ''
 max_wait = 1 # максимальное ожидание браузера
 
 d1 = webdriver.Chrome()

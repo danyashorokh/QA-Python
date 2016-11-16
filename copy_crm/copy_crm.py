@@ -20,15 +20,15 @@ test = 1
 id_crm = "1-TBY0LG"
 
 # логины, пароли
-login1 = "DSHOROKH"
-login3 = "DSHOROKH3"
-loginp = "DShorokh"
-passwp = "Password90"
+login1 = ""
+login3 = ""
+loginp = ""
+passwp = ""
 
 # ссылки
-url1 = 'https://crm-test.migcredit.ru/fins_rus/start.swe?SWECmd=Start&SWEHo=crm-test.migcredit.ru'
-url3 = 'https://t3crmas1.mgc.local/fins_rus/start.swe?SWECmd=Start&SWEHo=t3crmas1.mgc.local'
-urlp = 'https://crm.migcredit.ru/fins_rus/start.swe?SWECmd=Start&SWEHo=crm.migcredit.ru'
+url1 = ''
+url3 = ''
+urlp = ''
 
 # таймауты
 timeout_login = 5
