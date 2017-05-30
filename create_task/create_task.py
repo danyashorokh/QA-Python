@@ -24,17 +24,17 @@ import copy
 #------------------------------
 
 # Path to the table excel
-file_name = ''
+file_name = 'C:/Users/DShorokh/Desktop/selenium_excel.xls'
 
 # Clients amount
-clients_amount = 4
+clients_amount = 1
 
 # First client row in the table
 first_row = 1
 
 # Init url's
-test1 = ""
-test3 = ""
+test1 = "http://test1.migcredit.ru/dengi3/"
+test3 = "http://test3.migcredit.ru/dengi3/"
 
 # Method of obtaining a loan
 type1 = "Карта"
@@ -49,7 +49,7 @@ cvv = "123"
 hold_sum = "1.5"
 
 # Init settings <-----------------------------
-env = test3
+env = test1
 t = type1
 b = br2
 
@@ -538,7 +538,7 @@ def fill_2_page(driver, sex, prev_lastname, sn_passport, code_passport, date_pas
     elem.click()
     elem.send_keys(punkt_live)
     elem.send_keys(Keys.ENTER)
-    time.sleep(1)
+    time.sleep(2)
 
 
     # Улица
@@ -640,7 +640,7 @@ def fill_3_page(driver, type_work, company_name, company_view, company_status, c
         elem.click()
         elem.send_keys(punkt_work)
         elem.send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(2)
 
     # print(street_work)
     # Улица
@@ -907,7 +907,7 @@ clients = copy_from_excel(file_name, 0, 0, first_row, clients_amount)
 
 # Инициализация полей
 for i in range(0, clients_amount):
-    sum.append("3000")
+    sum.append("20000")
     lastname.append(clients[i]['ФАМИЛИЯ'])
     name.append(clients[i]['ИМЯ'])
     patronymic.append(clients[i]['ОТЧЕСТВО'])
@@ -930,7 +930,7 @@ for i in range(0, clients_amount):
     elif(rp == 2): region.append(reg_real)
     else: print("var rp isn't correct")
     mobile_phone.append(str(clients[i]['Мобильный телефон'])[2:12])
-    email.append("test.shorokh@yandex.ru")
+    email.append("dshorokh@migcredit.ru")
     #------------------------------
     sex.append(clients[i]['ПОЛ'])
     prev_lastname.append(clients[i]['ПРЕДЫДУЩАЯ ФАМИЛИЯ'])
@@ -1095,7 +1095,8 @@ for i,d in enumerate(ds,start=1):
         d.find_element_by_xpath(".//*[@id='submit-step4']").click()
         print("["+str(i)+"]: Код ЭЦП-1 введен")
     except:
-        pass
+        dsa[i - 1] = False
+        print("[" + str(i) + "]: Браузер деактивирован")
 
 
 for i,d in enumerate(ds,start=1):
@@ -1118,7 +1119,8 @@ for i,d in enumerate(ds,start=1):
         d.find_element_by_xpath(".//*[@id='submit_step2']").click()
         print("["+str(i)+"]: 2ая страница заполнена")
     except:
-        pass
+        dsa[i - 1] = False
+        print("[" + str(i) + "]: Браузер деактивирован")
 
     wait_form(d, "xpath", ".//*[@id='contacts_name']", one_wait, times_wait, "["+str(i)+"]: 3 страница не загружается")
 
@@ -1143,7 +1145,8 @@ for i,d in enumerate(ds,start=1):
         d.find_element_by_xpath(".//*[@id='submit_step3']").click()
         print("["+str(i)+"]: 3я страница заполнена")
     except:
-        pass
+        dsa[i - 1] = False
+        print("[" + str(i) + "]: Браузер деактивирован")
 
 for i,d in enumerate(ds,start=1):
     wait_form(d, "xpath", ".//*[@id='type16_wrapper']/td[1]/label/div", one_wait, 2 * times_wait,
@@ -1189,7 +1192,6 @@ if t == type1:
     # Генерация номера карты
     credit_card = credit_card_number(visa_prefix, 16, clients_amount)
     for i, d in enumerate(ds, start=1):
-        print(str(i))
         print("["+str(i)+"]: Номер сгенерированной карты: ", credit_card[i-1])
 
     # Ввод данных по карте
