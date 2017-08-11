@@ -34,16 +34,6 @@ client = Client(wsdl=c.wsdl, transport=transport, strict=False)
 
 SendApplication = d.SendApplication
 
-# #-------------------------------------------------
-SendApplication['clientInfo']['name'] = 'ЗЮЛИЯ'
-# SendApplication['clientInfo']['patronymic'] = 'АЛЕКСАНДРОВНА'
-SendApplication['clientInfo']['birthDate'] = '1984-07-02'
-SendApplication['clientInfo']['passportSeries'] = '4522'
-SendApplication['clientInfo']['passportNumber'] = '183866'
-SendApplication['clientInfo']['cellPhone'] = '9264517914'
-# #-------------------------------------------------
-
-
 # 1 SendApplication
 UCDB_ID = client.service.SendApplication(**SendApplication).bankApplicationId
 print("1 SendApplication")
