@@ -25,7 +25,7 @@ import copy
 #------------------------------
 
 # Path to the table excel
-file_name = 'C:/Users/DShorokh/Desktop/selenium_excel.xls'
+file_name = ''
 
 # Clients amount
 clients_amount = 1
@@ -34,20 +34,20 @@ clients_amount = 1
 first_row = 1
 
 # Init url's
-test1 = "http://test1.migcredit.ru/dengi3/"
-test3 = "http://test3.migcredit.ru/dengi3/"
+test1 = ""
+test3 = ""
 
 # Method of obtaining a loan
-type1 = "Карта"
-type2 = "Контакт"
-type3 = "Юнистрим"
+type1 = ""
+type2 = ""
+type3 = ""
 
 br1 = "Firefox"
 br2 = "Chrome"
 
-ecp1 = "1234"
-cvv = "123"
-hold_sum = "1.5"
+ecp1 = ""
+cvv = ""
+hold_sum = ""
 
 # Init settings <-----------------------------
 env = test1
