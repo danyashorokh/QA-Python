@@ -15,17 +15,13 @@ import numpy as np
 from datetime import datetime
 
 proxies = {
-    "https": "https://dshorokh:Password40@fx-proxy:8080",
-    "http": "http://dshorokh:Password40@fx-proxy:8080",
+    "https": "",
+    "http": "",
 }
 
-api_key = "6f5a3f20dfe0fe9cd15e5f08a1c9a0af"
+api_key = "6f5a3f20dfe0fe9cd15e5f08a1c9a0a" #f
 
 captcha_id = ""
-
-# https://rucaptcha.com
-# login: testmigcredit@gmail.com
-# pass: Migcredit
 
 # обновите драйвер хрома https://chromedriver.storage.googleapis.com/index.html?path=2.35/
 
