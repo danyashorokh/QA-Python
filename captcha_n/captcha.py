@@ -15,11 +15,19 @@ import numpy as np
 from datetime import datetime
 
 proxies = {
-    "https": "",
-    "http": "",
+    "https": "https://dshorokh:Password40@fx-proxy:8080",
+    "http": "http://dshorokh:Password40@fx-proxy:8080",
 }
 
-api_key = ""
+api_key = "6f5a3f20dfe0fe9cd15e5f08a1c9a0af"
+
+captcha_id = ""
+
+# https://rucaptcha.com
+# login: testmigcredit@gmail.com
+# pass: Migcredit
+
+# обновите драйвер хрома https://chromedriver.storage.googleapis.com/index.html?path=2.35/
 
 # Функция ожидания загрузки элемента на странице
 def wait_form(driver, type, path, one_time, max_time, final_text):
@@ -79,6 +87,8 @@ def get_captcha(file_name):
 
     url2 = "http://rucaptcha.com/res.php?key={apikey}&action=get&id={captcha_id}".format(apikey=api_key, captcha_id=captcha_id)
 
+    # url_bad = "http://rucaptcha.com/res.php?key={apikey}&action=reportbad&id={captcha_id}".format(apikey=api_key, captcha_id=captcha_id)
+
     value = ""
 
     while(1):
@@ -104,6 +114,10 @@ def get_captcha(file_name):
 
     return value
 
+# input format
+# Варфоламеева	Ирина	Валерьевна	1989-02-21	3711	458808	2012-01-25
+# разделены \t
+
 fi = open('input.txt','r')
 os.remove(os.getcwd() + "/output.txt")
 fo = open('output.txt','w')
@@ -121,14 +135,14 @@ fi.close()
 
 url1 = 'https://service.nalog.ru/inn.do'
 url2 = 'http://imacros2.rucaptcha.com/new/'
-max_wait = 3 # максимальное ожидание браузера
+max_wait = 3  # максимальное ожидание браузера
 
 d1 = webdriver.Chrome()
 d1.implicitly_wait(max_wait)
 #d2 = webdriver.Chrome()
 #d2.implicitly_wait(max_wait)
 
-time.sleep(3)
+time.sleep(4)
 
 i = 1
 
@@ -142,14 +156,14 @@ for em in e_list:
     res = ""
     res += em
 
-    wait_form(d1, "xpath", ".//*[@id='fam']", 3, 10, "Форма ввода данных не загружается")
+    wait_form(d1, "xpath", ".//*[@id='fam']", 5, 10, "Форма ввода данных не загружается")
 
     if(em):
 
         print(str(i)+"\t"+str(datetime.now())+": ")
 
         data = []
-        data = em.split(",")
+        data = em.split("\t")
 
         date = data[3].split("-")
         data[3] = date[2]+"."+date[1]+"."+date[0]
@@ -185,16 +199,17 @@ for em in e_list:
         #d1.find_element_by_xpath(".//*[@id='frmInn']/div[2]/div/div[1]/div[10]/div/div/a").click()
 
 
+        img = d1.find_element_by_xpath(".//*[@id='frmInn']/div[5]/div[1]/div[10]/div/div/img")
 
-
-        img = d1.find_element_by_xpath(".//*[@id='frmInn']/div[2]/div/div[1]/div[10]/div/div/img")
         loc = img.location
-        #scroll = "window.scrollTo(0, " + str(loc['y'])+")"
-        #d1.execute_script(scroll)
+        # print(loc)
+
+        scroll = "window.scrollTo(0, " + str(loc['y'])+")"
+        d1.execute_script(scroll)
         d1.save_screenshot('screenshot.png')
 
-        #page_size = d1.get_window_size()
-        #y_from_down = page_size['height'] - loc['y']
+        page_size = d1.get_window_size()
+        y_from_down = page_size['height'] - loc['y']
         #print(page_size['height'], loc['y'], y_from_down)
 
         #print(loc)
@@ -204,9 +219,9 @@ for em in e_list:
 
         x_roi = loc['x']
         y_roi = loc['y']
-        #h,w = image.shape
+        h,w = image.shape
 
-        #y_roi = h - y_from_down
+        y_roi = y_from_down + 80
         #print(y_roi)
 
         out = out[y_roi:y_roi+100, x_roi:x_roi+200]
@@ -214,7 +229,7 @@ for em in e_list:
 
         '''
         # get the image source
-        img = d1.find_element_by_xpath(".//*[@id='frmInn']/div[2]/div/div[1]/div[10]/div/div/img")
+        img = d1.find_element_by_xpath(".//*[@id='frmInn']/div[5]/div[1]/div[10]/div/div/img")
         src = img.get_attribute('src')
 
         d2.get(src)
@@ -254,7 +269,19 @@ for em in e_list:
                 res += "\t" + inn + "\n"
                 #print(inn)
             else:
-                res += "\t" + "не найден\n"
+                try:
+                    d1.find_element_by_xpath(".//label[contains(text(),'Цифры с картинки введены неверно')]")
+                    url_bad = "http://rucaptcha.com/res.php?key={apikey}&action=reportbad&id={captcha_id}".format(
+                        apikey=api_key, captcha_id=captcha_id)
+                    r1 = requests.get(url_bad, proxies=proxies)
+                    if r1.status_code == 200:
+                        # print("Жалоба на неправильное решение отправлена\n")
+                        res += "\t" + "Жалоба на неправильное решение отправлена\n"
+                    else:
+                        # print("Жалоба на неправильное решение не отправлена\n")
+                        res += "\t" + "Жалоба на неправильное решение не отправлена\n"
+                except:
+                    res += "\t" + "не найден\n"
 
             #d1.find_element_by_xpath(".//*[@id='frmInn']/div[2]/div/div[1]/div[10]/div/div/a").click()
 
@@ -268,7 +295,9 @@ for em in e_list:
         time.sleep(2)
         #sys.exit(1)
 
+    # Неправильно решена
     else: pass
+
 
     #os.remove(os.getcwd() + "/captcha.png")
 
