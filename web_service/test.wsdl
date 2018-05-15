@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions targetNamespace="urn:test" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:test"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns:weo="http://www.example.org">
+  <types>
+    <xsd:schema targetNamespace="urn:test/types" elementFormDefault="qualified"/>
+    <xsd:schema>
+      <xsd:import schemaLocation="../../../untitled1.xsd" namespace="http://www.example.org"/>
+    </xsd:schema>
+  </types>
+  <portType name="EmpDemo">
+    <operation name="requestOperation">
+      <input message="tns:EmpDemo_request"/>
+      <output message="tns:EmpDemo_response"/>
+      <fault name="EmpFault" message="tns:EmpFault"/>
+    </operation>
+  </portType>
+  <message name="EmpDemo_request">
+    <part name="part" element="weo:request"/>
+  </message>
+  <message name="EmpDemo_response">
+    <part name="part" element="weo:response"/>
+  </message>
+  <message name="EmpFault">
+    <part name="part" element="weo:fault"/>
+  </message>
+  <binding name="EmpDemoSOAP11Binding" type="tns:EmpDemo">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="requestOperation">
+      <soap:operation style="document" soapAction="urn:test/requestOperation"/>
+      <input>
+        <soap:body use="literal" parts="part"/>
+      </input>
+      <output>
+        <soap:body use="literal" parts="part"/>
+      </output>
+      <fault name="EmpFault">
+        <soap:fault name="EmpFault" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <service name="EmpDemo">
+    <port name="EmpDemoPort" binding="tns:EmpDemoSOAP11Binding">
+      <soap:address location="http://www.example.com"/>
+    </port>
+  </service>
+</definitions>
